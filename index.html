@@ -302,9 +302,8 @@ function renderSlots(slots) {
 
     slotContainer.innerHTML = '';
 
-    slots.sort((a,b) =>
-        a.timeslot.localeCompare(b.timeslot)
-    );
+   slots.sort((a,b) => a.id - b.id);
+``
 
     slots.forEach(slot => {
 
@@ -391,13 +390,13 @@ async function saveReservation() {
 
 console.log("Update Status:", updateResponse.status);
 
-closeModal();
-
 const success =
     document.getElementById('success');
 
 success.innerHTML =
     `<strong>Reservation Confirmed</strong><br>${name} reserved ${selectedSlot.time}`;
+
+closeModal();
 
 success.style.display = 'block';
 
