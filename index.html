@@ -302,7 +302,9 @@ function renderSlots(slots) {
 
     slotContainer.innerHTML = '';
 
-   slots.sort((a,b) => a.id - b.id);
+slots.sort((a,b) =>
+a.timeslot.localeCompare(b.timeslot)
+);
 
 
     slots.forEach(slot => {
