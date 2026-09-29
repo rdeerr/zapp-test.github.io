@@ -258,112 +258,182 @@ input {
 
 <script>
 
-const times = [
-    "6:00 PM",
-    "6:15 PM",
-    "6:30 PM",
-    "6:45 PM",
-    "7:00 PM",
-    "7:15 PM",
-    "7:30 PM",
-    "7:45 PM",
-    "8:00 PM",
-    "8:15 PM",
-    "8:30 PM"
-];
+const SUPABASE_URL =
+    'https://cjqtvoufyvoybnycdgmq.supabase.co';
 
-const slotContainer = document.getElementById("slots");
+const SUPABASE_KEY =
+    'sb_publishable_camiGoO5ED3RFpp8UtncQQ_O0M_c7rC';
 
-let selectedTime = null;
+const slotContainer =
+    document.getElementById("slots");
 
-function renderSlots() {
+let selectedSlot = null;
 
-    slotContainer.innerHTML = "";
+async function loadSlots() {
 
-    times.forEach(function(time){
+    try {
 
-        const slot = document.createElement("div");
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/reservations?select=*&isreserved=eq.false`,
+            {
+                headers: {
+                    apikey: SUPABASE_KEY,
+                    Authorization: `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
 
-        slot.className = "slot";
+        const data = await response.json();
 
-        slot.innerHTML = `
-            <strong>${time}</strong>
-            <button type="button" onclick="openModal('${time}')">
+        renderSlots(data);
+
+    } catch(error) {
+
+        console.error(error);
+
+        slotContainer.innerHTML =
+            '<div class="slot">Unable to load reservations.</div>';
+
+    }
+
+}
+
+function renderSlots(slots) {
+
+    slotContainer.innerHTML = '';
+
+    slots.sort((a,b) =>
+        a.timeslot.localeCompare(b.timeslot)
+    );
+
+    slots.forEach(slot => {
+
+        const row =
+            document.createElement('div');
+
+        row.className = 'slot';
+
+        row.innerHTML = `
+            <strong>${slot.timeslot}</strong>
+            <button
+                onclick="openModal(${slot.id}, '${slot.timeslot}')">
                 Reserve
             </button>
         `;
 
-        slotContainer.appendChild(slot);
+        slotContainer.appendChild(row);
 
     });
 
 }
 
-function openModal(time){
+function openModal(id, time) {
 
-    selectedTime = time;
+    selectedSlot = {
+        id: id,
+        time: time
+    };
 
-    document.getElementById("selectedTime").innerText =
-        "Reservation Time: " + time;
+    document.getElementById('selectedTime')
+        .innerText =
+        `Reservation Time: ${time}`;
 
-    document.getElementById("modal").style.display =
-        "flex";
-
-}
-
-function closeModal(){
-
-    document.getElementById("modal").style.display =
-        "none";
-
-    document.getElementById("name").value = "";
-
-    selectedTime = null;
+    document.getElementById('modal')
+        .style.display = 'flex';
 
 }
 
-function saveReservation(){
+function closeModal() {
+
+    document.getElementById('modal')
+        .style.display = 'none';
+
+    document.getElementById('name')
+        .value = '';
+
+    selectedSlot = null;
+
+}
+
+async function saveReservation() {
 
     const name =
-        document.getElementById("name")
+        document.getElementById('name')
         .value
         .trim();
 
-    if(!name){
+    if(!name) {
 
-        alert("Please enter your name.");
+        alert('Please enter your name.');
 
         return;
 
     }
 
-    alert(
-        "Reservation confirmed for " +
-        name +
-        " at " +
-        selectedTime
-    );
+    try {
 
-    closeModal();
+        const updateResponse =
+            await fetch(
+                `${SUPABASE_URL}/rest/v1/reservations?id=eq.${selectedSlot.id}`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        apikey: SUPABASE_KEY,
+                        Authorization: `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify({
+                        reservedby: name,
+                        isreserved: true
+                    })
+                }
+            );
 
-    const success =
-        document.getElementById("success");
+        if(!updateResponse.ok) {
 
-    success.style.display = "block";
+            throw new Error(
+                'Failed to save reservation'
+            );
 
-    setTimeout(function(){
+        }
 
-        success.style.display = "none";
+        closeModal();
 
-    }, 5000);
+        const success =
+            document.getElementById('success');
+
+        success.innerHTML =
+            `<strong>Reservation Confirmed</strong><br>${name} reserved ${selectedSlot.time}`;
+
+        success.style.display = 'block';
+
+        setTimeout(() => {
+
+            success.style.display = 'none';
+
+        }, 5000);
+
+        loadSlots();
+
+    }
+    catch(error) {
+
+        console.error(error);
+
+        alert(
+            'Unable to save reservation. Please try again.'
+        );
+
+    }
 
 }
 
 document
-    .getElementById("modal")
-    .addEventListener("click", function(e){
+    .getElementById('modal')
+    .addEventListener('click', function(e){
 
-        if(e.target.id === "modal"){
+        if(e.target.id === 'modal') {
 
             closeModal();
 
@@ -371,9 +441,9 @@ document
 
     });
 
-window.onload = function(){
+window.onload = function() {
 
-    renderSlots();
+    loadSlots();
 
 };
 
