@@ -372,78 +372,42 @@ async function saveReservation() {
 
     try {
 
-        const updateResponse =
-            await fetch(
-                `${SUPABASE_URL}/rest/v1/reservations?id=eq.${selectedSlot.id}`,
-                {
-                    method: 'PATCH',
-                    headers: {
-                        apikey: SUPABASE_KEY,
-                        Authorization: `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=representation'
-                    },
-                    body: JSON.stringify({
-                        reservedby: name,
-                        isreserved: true
-                    })
-                }
-            );
-
-        if(!updateResponse.ok) {
-
-            throw new Error(
-                'Failed to save reservation'
-            );
-
+       const updateResponse =
+    await fetch(
+        `${SUPABASE_URL}/rest/v1/reservations?id=eq.${selectedSlot.id}`,
+        {
+            method: 'PATCH',
+            headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                reservedby: name,
+                isreserved: true
+            })
         }
+    );
 
-        closeModal();
+console.log("Update Status:", updateResponse.status);
 
-        const success =
-            document.getElementById('success');
+closeModal();
 
-        success.innerHTML =
-            `<strong>Reservation Confirmed</strong><br>${name} reserved ${selectedSlot.time}`;
+const success =
+    document.getElementById('success');
 
-        success.style.display = 'block';
+success.innerHTML =
+    `<strong>Reservation Confirmed</strong><br>${name} reserved ${selectedSlot.time}`;
 
-        setTimeout(() => {
+success.style.display = 'block';
 
-            success.style.display = 'none';
+loadSlots();
 
-        }, 5000);
+setTimeout(() => {
 
-        loadSlots();
+    success.style.display = 'none';
 
-    }
-    catch(error) {
-
-        console.error(error);
-
-        alert(
-            'Unable to save reservation. Please try again.'
-        );
-
-    }
-
-}
-
-document
-    .getElementById('modal')
-    .addEventListener('click', function(e){
-
-        if(e.target.id === 'modal') {
-
-            closeModal();
-
-        }
-
-    });
-
-window.onload = function() {
-
-    loadSlots();
+}, 5000);
 
 };
 
