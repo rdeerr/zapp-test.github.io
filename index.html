@@ -1,476 +1,382 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Training Hub</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>The App Guys - 5 Star Bistro Reservations</title>
 
 <style>
-/* ==========================
-   GLOBAL SETTINGS
-========================== */
 
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
-html,
 body {
-    min-height: 100%;
-    overflow-x: hidden;
-    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background: #f7f4ed;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #333;
+}
+
+.header {
+    background: #2a6c42;
     color: white;
+    padding: 40px 20px;
 }
 
-a:link{
-	color: #c70c96;
-	font-weight: bold;
-        opacity: 1;
-        text-shadow: 0 0 10px rgba(255,255,255,.85);
- 	font-size: 1.25rem;
-}
-
-/* ==========================
-   FIXED BACKGROUND
-========================== */
-
-.bg-image {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    z-index: -2;
-}
-
-/* Dark overlay for readability */
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.15);
-    z-index: -1;
-}
-
-/* ==========================
-   NAVIGATION
-========================== */
-
-
-.navbar-square {
-    position: relative;
-    width: 100%;
-    z-index: 500;
-
+.header-inner {
+    max-width: 900px;
+    margin: auto;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    gap: 24px;
 }
 
-a.nav-link:link,
-a.nav-link:visited {
-    color: white;
+.title-block {
+    flex: 1;
 }
 
-.navbar-square .nav-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 2.1rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-
-    aspect-ratio: 1 / 1;
-    width: 100%;
-    padding: 10px;
-    line-height: 1.1;
-    box-sizing: border-box;
-
-    background: rgba(20, 20, 35, 0.30);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 14px;
-    box-shadow: 0 4px 18px rgba(0,0,0,.25);
-
-    opacity: 0.85;
-    transition: all 0.25s ease;
-    text-shadow: none;
+.header h1 {
+    margin: 0;
+    font-size: 2.4rem;
+    font-weight: 700;
 }
 
-.navbar-square .nav-link:hover {
-    opacity: 1;
-    color: #c70c96;
-    background: rgba(20, 20, 35, 0.5);
-    border-color: rgba(255,255,255,.35);
-    box-shadow: 0 6px 22px rgba(0,0,0,.35);
-}
-
-.nav-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: 100%;
-    gap: 16px;
-    padding: 16px;
-    box-sizing: border-box;
-    position: relative;
-}
-
-.nav-logo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: auto;
-    z-index: 50;
-    pointer-events: none;
-}
-
-/* ---- Slim persistent nav (appears once the square nav scrolls away) ---- */
-
-.navbar-slim {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: rgba(20, 20, 35, 0.25);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255,255,255,.1);
-
-    transform: translateY(-100%);
-    opacity: 0;
-    transition: transform 0.35s ease, opacity 0.35s ease;
-    pointer-events: none;
-}
-
-.navbar-slim.visible {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.nav-container-slim {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-    padding: 18px 20px;
-}
-
-.navbar-slim .nav-link {
-    display: inline;
-    aspect-ratio: unset;
-    width: auto;
-    background: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-    padding: 0;
-    line-height: normal;
-
-    color: white;
-    font-weight: 600;
+.header h2 {
+    margin: 10px 0;
     font-size: 1.15rem;
-    letter-spacing: 0.5px;
-    text-transform: none;
-
-    opacity: 0.75;
-    text-shadow: 0 0 10px rgba(255,255,255,.5);
-    transition: all 0.25s ease;
+    font-weight: 400;
+    opacity: .95;
 }
 
-.navbar-slim .nav-link:hover {
-    opacity: 1;
-    color: #c70c96;
-    text-shadow: 0 0 10px rgba(255,255,255,.85);
+.header p {
+    margin-top: 18px;
+    opacity: .9;
 }
 
-.nav-side-image {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 40px;
-    width: auto;
+.logo {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
-.nav-left {
-    left: 20px;
+.container {
+    max-width: 650px;
+    margin: auto;
+    padding: 24px;
 }
 
-.nav-right {
-    right: 20px;
+.success {
+    display: none;
+    background: #d9eadf;
+    border-left: 4px solid #2a6c42;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #234a30;
 }
 
-
-.landing {
-    min-height: 100svh;
+.slot {
+    background: white;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    padding: 18px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.slot strong {
+    font-size: 1.05rem;
+}
+
+button {
+    background: #2a6c42;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: .92;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
-/* ==========================
-   PAGE CONTENT
-========================== */
-
-.heading-text {
-  color: #1b171a;
-  font-size: 24px;
-  font-weight: bold;
- opacity: 1;
-    text-shadow: 0 0 10px rgba(255,255,255,.85);
+.modal-card {
+    background: white;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 14px;
+    padding: 24px;
 }
 
-.content {
-    position: relative;
-    z-index: 1;
-}
-
-.hero,
-.section {
-    min-height: 100vh;
-    min-height: 100svh;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.modal-card h3 {
+    margin-top: 0;
     text-align: center;
-
-    padding: 100px 20px;
+    color: #2a6c42;
 }
 
-.hero h1,
-.section h2 {
-    text-shadow: 0 2px 12px rgba(0,0,0,.75);
+.modal-card p {
+    text-align: center;
+    color: #666;
 }
 
-.hero h1 {
-    font-size: clamp(2.5rem, 7vw, 5rem);
+input {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    margin: 12px 0 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
 }
 
-.section h2 {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+.button-row {
+    display: flex;
+    gap: 10px;
 }
 
-/* Optional content panels */
-
-.panel {
-    padding: 40px;
-    max-width: 800px;
+.button-row button {
+    flex: 1;
 }
 
-.divider {
-    display: block;
-    width: 300px;
-    max-width: 100%;
-    height: auto;
-    margin: 40px auto 0;
+.cancel-btn {
+    background: #d8d8d8;
+    color: #333;
 }
 
+.footer {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+    font-size: .85rem;
+}
 
-/* ==========================
-   MOBILE
-========================== */
+@media(max-width:600px) {
 
-@media (max-width: 768px) {
-
-    .navbar-square {
-        width: 100%;
+    .header-inner {
+        flex-direction: column-reverse;
+        text-align: center;
     }
 
-    .nav-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        padding: 10px;
-        width: 100%;
-        max-width: 100%;
+    .logo {
+        width: 90px;
+        height: 90px;
     }
 
-    .navbar-square .nav-link {
-        font-size: 1.9rem;
-        border-radius: 12px;
-        letter-spacing: 0.3px;
+    .header h1 {
+        font-size: 2rem;
     }
 
-    .nav-container-slim {
-        gap: 22px;
-        padding: 14px 16px;
-    }
-
-    .navbar-slim .nav-link {
-        font-size: 0.85rem;
-    }
-
-    .panel {
-        padding: 25px;
+    .button-row {
+        flex-direction: column;
     }
 }
+
 </style>
 </head>
+
 <body>
 
-<!-- Background Image -->
-<img src="mobile-bg.jpg" class="bg-image">
+<div class="header">
 
-<!-- Overlay -->
-<div class="overlay"></div>
+    <div class="header-inner">
 
-<!-- Navigation -->
+        <div class="title-block">
+            <h1>The App Guys</h1>
+            <h2>5 Star Bistro Reservations</h2>
+            <p>Reserve your time slot for a special presentation and a little special treatment!</p>
+        </div>
 
-<div class="landing">
-<nav class="navbar-square">
-    <div class="nav-container">
-        <a href="#current-week" class="nav-link">Current Week</a>
-        <a href="#stash" class="nav-link">Stash</a>
-        <a href="#training" class="nav-link">Training</a>
-        <a href="#past" class="nav-link">Past Weeks</a>
-        <img src="title-image.png" class="nav-logo" alt="">
+        <img src="site-logo.png" width="100px">
+
     </div>
-</nav>
+
 </div>
 
-<nav class="navbar-slim">
-    <div class="nav-container-slim">
-        <a href="#current-week" class="nav-link">Current Week</a>
-        <a href="#stash" class="nav-link">Stash</a>
-        <a href="#training" class="nav-link">Training</a>
-        <a href="#past" class="nav-link">Past Weeks</a>
+<div class="container">
+
+    <div id="success" class="success">
+        Reservation saved successfully.
     </div>
-</nav>
 
+    <div id="slots"></div>
 
+</div>
 
-<!-- Content -->
+<div id="modal" class="modal">
 
-<div class="content">
+    <div class="modal-card">
 
-<!-- ----------------------------- CURRENT WEEK ------------------------------- -->
+        <h3 id="selectedTime"></h3>
 
-    <section id="current-week" class="hero">
-        <div class="panel">
-            <h1>Current Week</h1><p>&nbsp;</p>
-            <p class="heading-text">AWARENESS</p>
-		<p>
-<b>TURN UP THE VOLUME with E.V.E.R.Y. BTS+ SALE!</b><br>
-<I>To help drive increase traffic and transactions, think App = MC2!</I><br>
-Use Zumiez App to get <u>M</u>ORE <u>C</u>ustomers in your stores and <u>M</u>ORE <u>C</u>ash in your drawers!<br>
+        <p>
+            Enter your name below to reserve this table.
+        </p>
 
-<ul>
-    <li><b>NFS:</b> Pitch the App on the floor to every customer – 2026 goal is 900,000 NFS!</li>
-    <li><b>Chat:</b> 100% responses every hour</li>
-    <li><b>List:</b> Encourage customers to create want lists and share them!</li>
-</ul>
-<a href="goals.html">This week's goals by store</a>
-		</p> <br><p>
-Current sweeps for customers: <ul>
-<li>Enter to Win $100 a day! ( 6/12 – 10/3)</li>
-<li>BTS Catalog Sweeps - Enter to win a $10,000 shopping spree!</li>
-<li>“Win the Wishlist sweeps: customers can spend points to enter to win a premade wishlist</li>
-</ul></p>
-<p>&nbsp;</p>
- <p class="heading-text">ACTION</p>
-		<p>
-<b>Current Pitch Priorities</b><br>
-Check-in to Win DGA prize pack<br>
-Customer Sweeps<br>
-BTS+ Wish List building and sharing<br>
-SMS sends to individuals who want to get the App<br>
-App Access for Sprayground bags<br>
-Stash points redemption<br>
-<a href="goals.html">TAP Sheet Pitch Guide</a>
-		</p> 
-<p>&nbsp;</p>
- <p class="heading-text">ACCOUNTABILITY</p>
-		<p>
-Company NFS Results: PTD 75% to goal<br>
-<a href="goals.html">PTD NFS Results by store</a><br>
-Company Chat Results: PTD 59.8% response rate. 40% of customers missed<br>
-<a href="goals.html">PTD Chat Results by store</a><br>
-		</p> 
-        <img src="divider.png" class="divider" alt="">
+        <input
+            id="name"
+            placeholder="Your Name">
+
+        <div class="button-row">
+
+            <button
+                class="cancel-btn"
+                onclick="closeModal()">
+                Choose Another Time
+            </button>
+
+            <button onclick="saveReservation()">
+                Reserve
+            </button>
+
         </div>
-    </section>
 
-<!-- ----------------------------- STASH ------------------------------- -->
+    </div>
 
-    <section id="stash" class="section">
-        <div class="panel">
-            <h2>Stash</h2>
-            <p> <img src="stash.png" style="width: 90%;"> </p>
-            <img src="divider.png" class="divider" alt="">
-        </div>
-    </section>
+</div>
 
-<!-- ----------------------------- TRAINING ------------------------------- -->
-
-    <section id="training" class="section">
-        <div class="panel">
-            <h2>Training</h2>
-            <p><a href="POS.html">POS x SMS</a></p>
-            <p><a href="77.html">Zumiez App and the 7/7</a></p>
-            <p><a href="FR.html">Fitting Room Pitching</a></p>
-            <p><a href="redeem.html">In-Store Redemption</a></p>
-            <img src="divider.png" class="divider" alt="">
-        </div>
-    </section>
-
-
-<!-- ----------------------------- PAST ------------------------------- -->
-
-    <section id="past" class="section">
-        <div class="panel">
-            <h2>PAST WEEKS</h2>
-            <p><a href="POS.html">5/25</a></p>
-            <p><a href="77.html">6/2</a></p>
-            <p><a href="FR.html">6/9</a></p>
-            <p><a href="redeem.html">6/16</a></p>
-            <img src="divider.png" class="divider" alt="">
-        </div>
-    </section>
-
-
+<div class="footer">
+    Reservations are available on a first come, first served basis.<br>
 </div>
 
 <script>
-/* Show the slim persistent nav once the big square nav scrolls out of view */
 
-const squareNav = document.querySelector('.navbar-square');
-const slimNav = document.querySelector('.navbar-slim');
+const times = [
+    "6:00 PM",
+    "6:15 PM",
+    "6:30 PM",
+    "6:45 PM",
+    "7:00 PM",
+    "7:15 PM",
+    "7:30 PM",
+    "7:45 PM",
+    "8:00 PM",
+    "8:15 PM",
+    "8:30 PM"
+];
 
-const navObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                slimNav.classList.remove('visible');
-            } else if (entry.boundingClientRect.top < 0) {
-                slimNav.classList.add('visible');
-            }
-        });
-    },
-    { threshold: 0 }
-);
+const slotContainer = document.getElementById("slots");
 
-navObserver.observe(squareNav);
+let selectedTime = null;
+
+function renderSlots() {
+
+    slotContainer.innerHTML = "";
+
+    times.forEach(function(time){
+
+        const slot = document.createElement("div");
+
+        slot.className = "slot";
+
+        slot.innerHTML = `
+            <strong>${time}</strong>
+            <button type="button" onclick="openModal('${time}')">
+                Reserve
+            </button>
+        `;
+
+        slotContainer.appendChild(slot);
+
+    });
+
+}
+
+function openModal(time){
+
+    selectedTime = time;
+
+    document.getElementById("selectedTime").innerText =
+        "Reservation Time: " + time;
+
+    document.getElementById("modal").style.display =
+        "flex";
+
+}
+
+function closeModal(){
+
+    document.getElementById("modal").style.display =
+        "none";
+
+    document.getElementById("name").value = "";
+
+    selectedTime = null;
+
+}
+
+function saveReservation(){
+
+    const name =
+        document.getElementById("name")
+        .value
+        .trim();
+
+    if(!name){
+
+        alert("Please enter your name.");
+
+        return;
+
+    }
+
+    alert(
+        "Reservation confirmed for " +
+        name +
+        " at " +
+        selectedTime
+    );
+
+    closeModal();
+
+    const success =
+        document.getElementById("success");
+
+    success.style.display = "block";
+
+    setTimeout(function(){
+
+        success.style.display = "none";
+
+    }, 5000);
+
+}
+
+document
+    .getElementById("modal")
+    .addEventListener("click", function(e){
+
+        if(e.target.id === "modal"){
+
+            closeModal();
+
+        }
+
+    });
+
+window.onload = function(){
+
+    renderSlots();
+
+};
+
 </script>
 
 </body>
